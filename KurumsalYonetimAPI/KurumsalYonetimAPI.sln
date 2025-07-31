@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36301.6 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KurumsalYonetimAPI", "KurumsalYonetimAPI\KurumsalYonetimAPI.csproj", "{BDA1B792-0B55-49A1-810B-9DAAD9695DCB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BDA1B792-0B55-49A1-810B-9DAAD9695DCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDA1B792-0B55-49A1-810B-9DAAD9695DCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDA1B792-0B55-49A1-810B-9DAAD9695DCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDA1B792-0B55-49A1-810B-9DAAD9695DCB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5FECB6E6-4B18-41A2-AD8E-2DE241A453AE}
+	EndGlobalSection
+EndGlobal
