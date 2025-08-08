@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSecenekler));
             this.btnTeknikServis = new System.Windows.Forms.Button();
             this.btnDemirbasAtama = new System.Windows.Forms.Button();
             this.btnDemirbaslar = new System.Windows.Forms.Button();
@@ -37,34 +38,39 @@
             // btnTeknikServis
             // 
             this.btnTeknikServis.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnTeknikServis.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnTeknikServis.BackgroundImage")));
+            this.btnTeknikServis.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnTeknikServis.Font = new System.Drawing.Font("Microsoft Sans Serif", 22F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnTeknikServis.Location = new System.Drawing.Point(96, 431);
+            this.btnTeknikServis.Location = new System.Drawing.Point(1033, 141);
             this.btnTeknikServis.Name = "btnTeknikServis";
-            this.btnTeknikServis.Size = new System.Drawing.Size(1055, 159);
+            this.btnTeknikServis.Size = new System.Drawing.Size(396, 363);
             this.btnTeknikServis.TabIndex = 7;
-            this.btnTeknikServis.Text = "TEKNİK SERVİS TAKİP";
             this.btnTeknikServis.UseVisualStyleBackColor = true;
             this.btnTeknikServis.Click += new System.EventHandler(this.btnTeknikServis_Click);
             // 
             // btnDemirbasAtama
             // 
             this.btnDemirbasAtama.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnDemirbasAtama.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnDemirbasAtama.BackgroundImage")));
+            this.btnDemirbasAtama.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnDemirbasAtama.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnDemirbasAtama.Location = new System.Drawing.Point(841, 40);
+            this.btnDemirbasAtama.Location = new System.Drawing.Point(635, 136);
             this.btnDemirbasAtama.Name = "btnDemirbasAtama";
-            this.btnDemirbasAtama.Size = new System.Drawing.Size(345, 341);
+            this.btnDemirbasAtama.Size = new System.Drawing.Size(368, 368);
             this.btnDemirbasAtama.TabIndex = 6;
-            this.btnDemirbasAtama.Text = "DEMİBAŞLARI ÇALIŞANLARA ATAMA ";
+            this.btnDemirbasAtama.Text = "  \r\nDEMİBAŞLARI \r\nÇALIŞANLARA \r\n    ATAMA ";
             this.btnDemirbasAtama.UseVisualStyleBackColor = true;
             this.btnDemirbasAtama.Click += new System.EventHandler(this.btnDemirbasAtama_Click);
             // 
             // btnDemirbaslar
             // 
             this.btnDemirbaslar.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnDemirbaslar.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnDemirbaslar.BackgroundImage")));
+            this.btnDemirbaslar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnDemirbaslar.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnDemirbaslar.Location = new System.Drawing.Point(418, 40);
+            this.btnDemirbaslar.Location = new System.Drawing.Point(209, 133);
             this.btnDemirbaslar.Name = "btnDemirbaslar";
-            this.btnDemirbaslar.Size = new System.Drawing.Size(378, 341);
+            this.btnDemirbaslar.Size = new System.Drawing.Size(406, 371);
             this.btnDemirbaslar.TabIndex = 5;
             this.btnDemirbaslar.Text = "DEMİRBAŞLAR ";
             this.btnDemirbaslar.UseVisualStyleBackColor = true;
@@ -73,12 +79,14 @@
             // btnCalisanlar
             // 
             this.btnCalisanlar.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnCalisanlar.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnCalisanlar.BackgroundImage")));
+            this.btnCalisanlar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnCalisanlar.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnCalisanlar.Location = new System.Drawing.Point(60, 40);
+            this.btnCalisanlar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.btnCalisanlar.Location = new System.Drawing.Point(-206, 127);
             this.btnCalisanlar.Name = "btnCalisanlar";
-            this.btnCalisanlar.Size = new System.Drawing.Size(319, 341);
+            this.btnCalisanlar.Size = new System.Drawing.Size(388, 377);
             this.btnCalisanlar.TabIndex = 4;
-            this.btnCalisanlar.Text = "ÇALIŞANLAR ";
             this.btnCalisanlar.UseVisualStyleBackColor = true;
             this.btnCalisanlar.Click += new System.EventHandler(this.btnCalisanlar_Click);
             // 
@@ -86,7 +94,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1258, 625);
+            this.ClientSize = new System.Drawing.Size(1772, 711);
             this.Controls.Add(this.btnTeknikServis);
             this.Controls.Add(this.btnDemirbasAtama);
             this.Controls.Add(this.btnDemirbaslar);

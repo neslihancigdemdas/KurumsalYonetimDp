@@ -1,15 +1,9 @@
-﻿using KurumsalYonetim.Models; 
+﻿using KurumsalYonetim.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -19,7 +13,7 @@ namespace KurumsalYonetim
     {
         private int seciliMusteriID = 0;
         private readonly HttpClient client = new HttpClient();
-        private const string baseUrl = "http://localhost:5011/api/Musteri";  
+        private const string baseUrl = "http://localhost:5011/api/Musteri";
 
         public formMusteri()
         {
@@ -30,31 +24,38 @@ namespace KurumsalYonetim
         {
             this.WindowState = FormWindowState.Maximized;
             await MusterileriGetir();
-
+            dgvmusteri.SelectionChanged += dgvmusteri_SelectionChanged;
         }
+
         private async Task MusterileriGetir()
         {
             try
-            {  
+            {
                 HttpResponseMessage yanit = await client.GetAsync(baseUrl);
-                yanit.EnsureSuccessStatusCode(); 
+                yanit.EnsureSuccessStatusCode();
 
-                
                 using (Stream akis = await yanit.Content.ReadAsStreamAsync())
                 {
-                    List<Musteri> musteriler = await System.Text.Json.JsonSerializer.DeserializeAsync<List<Musteri>>(akis, new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    List<Musteriler> musteriler = await System.Text.Json.JsonSerializer.DeserializeAsync<List<Musteriler>>(akis, new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                    dgvmusteri.DataSource = null;
                     dgvmusteri.DataSource = musteriler;
+                    if (dgvmusteri.Columns["MusteriID"] != null)
+                    {
+                        dgvmusteri.Columns["MusteriID"].Visible = false;
+                    }
+                    dgvmusteri.Refresh();
                 }
             }
-            catch (HttpRequestException httpEx) 
+            catch (HttpRequestException httpEx)
             {
                 MessageBox.Show("API çağrısı sırasında hata oluştu: " + httpEx.Message);
             }
-            catch (System.Text.Json.JsonException jsonEx) 
+            catch (System.Text.Json.JsonException jsonEx)
             {
                 MessageBox.Show("Veri ayrıştırma sırasında hata oluştu: " + jsonEx.Message);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 MessageBox.Show("Beklenmedik bir hata oluştu: " + ex.Message);
             }
@@ -64,7 +65,7 @@ namespace KurumsalYonetim
         {
             try
             {
-                Musteri yeniMusteri = new Musteri
+                Musteriler yeniMusteri = new Musteriler
                 {
                     AdSoyad = tbAdSoyad.Text,
                     Telefon = msktbTelefon.Text,
@@ -78,7 +79,7 @@ namespace KurumsalYonetim
                 if (response.IsSuccessStatusCode)
                 {
                     MessageBox.Show("Müşteri eklendi.");
-                    await MusterileriGetir();  
+                    await MusterileriGetir();
                     Temizle();
                 }
                 else
@@ -100,7 +101,7 @@ namespace KurumsalYonetim
                 return;
             }
 
-            Musteri musteri = new Musteri
+            Musteriler musteri = new Musteriler
             {
                 MusteriID = seciliMusteriID,
                 AdSoyad = tbAdSoyad.Text,
@@ -110,7 +111,7 @@ namespace KurumsalYonetim
                 KayitTarihi = dtpKayitTarih.Value
             };
 
-            HttpResponseMessage response = await client.PutAsJsonAsync($"api/Musteri/{seciliMusteriID}", musteri);
+            HttpResponseMessage response = await client.PutAsJsonAsync($"{baseUrl}/{seciliMusteriID}", musteri);
             if (response.IsSuccessStatusCode)
             {
                 MessageBox.Show("Güncelleme başarılı.");
@@ -131,16 +132,29 @@ namespace KurumsalYonetim
                 return;
             }
 
-            HttpResponseMessage response = await client.DeleteAsync($"api/Musteri/{seciliMusteriID}");
-            if (response.IsSuccessStatusCode)
+            DialogResult result = MessageBox.Show("Seçili müşteriyi silmek istediğinizden emin misiniz?",
+                                                     "Silme Onayı",
+                                                     MessageBoxButtons.YesNo,
+                                                     MessageBoxIcon.Warning);
+
+            if (result == DialogResult.Yes)
             {
-                MessageBox.Show("Silme işlemi başarılı.");
-                await MusterileriGetir();
-                Temizle();
+                HttpResponseMessage response = await client.DeleteAsync($"{baseUrl}/{seciliMusteriID}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Silme işlemi başarılı.");
+                    await MusterileriGetir();
+                    Temizle();
+                }
+                else
+                {
+                    MessageBox.Show("Silme işlemi başarısız.");
+                }
             }
             else
             {
-                MessageBox.Show("Silme işlemi başarısız.");
+
             }
         }
         private void Temizle()
@@ -156,18 +170,30 @@ namespace KurumsalYonetim
         {
             Temizle();
         }
-        private void dgvmusteri_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = dgvmusteri.Rows[e.RowIndex];
-                seciliMusteriID = Convert.ToInt32(row.Cells["MusteriID"].Value);
-                tbAdSoyad.Text = row.Cells["AdSoyad"].Value.ToString();
-                msktbTelefon.Text = row.Cells["Telefon"].Value.ToString();
-                tbEmail.Text = row.Cells["Email"].Value.ToString();
-                rtbAdres.Text = row.Cells["Adres"].Value.ToString();
-                dtpKayitTarih.Value = Convert.ToDateTime(row.Cells["KayitTarihi"].Value);
 
+        private void dgvmusteri_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvmusteri.SelectedRows.Count > 0)
+            {
+                Musteriler musteri = dgvmusteri.SelectedRows[0].DataBoundItem as Musteriler;
+                if (musteri != null)
+                {
+                    seciliMusteriID = musteri.MusteriID;
+                    tbAdSoyad.Text = musteri.AdSoyad;
+                    msktbTelefon.Text = musteri.Telefon ?? "";
+                    tbEmail.Text = musteri.Email ?? "";
+                    rtbAdres.Text = musteri.Adres ?? "";
+
+
+                    if (musteri.KayitTarihi != DateTime.MinValue)
+                    {
+                        dtpKayitTarih.Value = musteri.KayitTarihi;
+                    }
+                    else
+                    {
+                        dtpKayitTarih.Value = DateTime.Now;
+                    }
+                }
             }
         }
     }

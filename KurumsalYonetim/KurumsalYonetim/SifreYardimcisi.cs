@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace KurumsalYonetim
 {
@@ -15,7 +12,7 @@ namespace KurumsalYonetim
             byte[] saltBytes = new byte[16];
             using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
             {
-                rng.GetBytes(saltBytes); 
+                rng.GetBytes(saltBytes);
             }
             return Convert.ToBase64String(saltBytes);
         }

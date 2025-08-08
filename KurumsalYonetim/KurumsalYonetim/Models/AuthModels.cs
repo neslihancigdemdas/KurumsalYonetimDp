@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KurumsalYonetim.Models 
+﻿namespace KurumsalYonetim.Models
 {
     public class LoginRequest
     {
@@ -12,7 +6,7 @@ namespace KurumsalYonetim.Models
         public string Sifre { get; set; } = string.Empty;
     }
 
-    public class RegisterRequest 
+    public class RegisterRequest
     {
         public string KullaniciAdi { get; set; } = string.Empty;
         public string Sifre { get; set; } = string.Empty;
@@ -25,7 +19,7 @@ namespace KurumsalYonetim.Models
         public string YeniSifre { get; set; } = string.Empty;
     }
 
- 
+
     public class LoginResponse
     {
         public string Message { get; set; } = string.Empty;

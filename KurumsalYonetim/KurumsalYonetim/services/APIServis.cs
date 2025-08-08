@@ -1,10 +1,9 @@
-﻿
+﻿using KurumsalYonetim.Models;
+using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using KurumsalYonetim.Models; 
 
 namespace KurumsalYonetim.Controllers
 {
@@ -16,7 +15,7 @@ namespace KurumsalYonetim.Controllers
         public APIServis(string baseApiUrl)
         {
             _httpClient = new HttpClient();
-            _httpClient.Timeout = TimeSpan.FromSeconds(30); 
+            _httpClient.Timeout = TimeSpan.FromSeconds(30);
             _baseApiUrl = baseApiUrl;
         }
 
@@ -24,7 +23,6 @@ namespace KurumsalYonetim.Controllers
         {
             try
             {
-                
                 LoginRequest loginRequest = new LoginRequest
                 {
                     KullaniciAdi = kullaniciAdi,
@@ -101,5 +99,65 @@ namespace KurumsalYonetim.Controllers
             }
         }
 
+        // Yeni Metot: Şifre sıfırlama talebi gönderme
+        public async Task<(bool Success, string Message)> RequestPasswordResetAsync(string usernameOrEmail)
+        {
+            try
+            {
+                var request = new { UsernameOrEmail = usernameOrEmail };
+                var jsonContent = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.PostAsync($"{_baseApiUrl}/api/Auth/request-password-reset", jsonContent);
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return (true, responseBody.Replace("\"", ""));
+                }
+                else
+                {
+                    dynamic errorResult = JsonConvert.DeserializeObject(responseBody);
+                    string errorMessage = errorResult.Message ?? "Bilinmeyen bir hata oluştu.";
+                    return (false, errorMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Beklenmeyen bir hata oluştu: {ex.Message}");
+            }
+        }
+
+        // Yeni Metot: Şifre sıfırlama işlemini gerçekleştirme
+        public async Task<(bool Success, string Message)> ResetPasswordAsync(string username, string token, string newPassword)
+        {
+            try
+            {
+                var request = new SetPasswordRequest
+                {
+                    KullaniciAdi = username,
+                    YeniSifre = newPassword
+                };
+
+                var jsonContent = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.PostAsync($"{_baseApiUrl}/api/Auth/reset-password?token={token}", jsonContent);
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return (true, responseBody.Replace("\"", ""));
+                }
+                else
+                {
+                    dynamic errorResult = JsonConvert.DeserializeObject(responseBody);
+                    string errorMessage = errorResult.Message ?? "Bilinmeyen bir hata oluştu.";
+                    return (false, errorMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Beklenmeyen bir hata oluştu: {ex.Message}");
+            }
+        }
     }
 }

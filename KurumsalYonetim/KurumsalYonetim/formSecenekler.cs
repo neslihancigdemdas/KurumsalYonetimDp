@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using KurumsalYonetim.Models;
+using System;
 using System.Windows.Forms;
-
 namespace KurumsalYonetim
 {
     public partial class FormSecenekler : Form
@@ -20,8 +13,14 @@ namespace KurumsalYonetim
 
         private void btnCalisanlar_Click(object sender, EventArgs e)
         {
-          FormCalisanlar calisanlarform = new FormCalisanlar();
-            calisanlarform.Show();
+            var adminUser = new CurrentUser
+            {
+                IsAdmin = true
+            };
+
+
+            FormCalisanlar calisanlarFormu = new FormCalisanlar(adminUser);
+            calisanlarFormu.Show();
         }
 
         private void btnDemirbaslar_Click(object sender, EventArgs e)

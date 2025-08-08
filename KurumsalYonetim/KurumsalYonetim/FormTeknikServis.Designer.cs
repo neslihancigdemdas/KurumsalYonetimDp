@@ -28,82 +28,98 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTeknikServis));
             this.btnMusteriler = new System.Windows.Forms.Button();
-            this.btnNotEkle = new System.Windows.Forms.Button();
             this.btnCihazlar = new System.Windows.Forms.Button();
             this.btnServisKaydi = new System.Windows.Forms.Button();
-            this.btnServisListele = new System.Windows.Forms.Button();
+            this.btnServisDurumGecmis = new System.Windows.Forms.Button();
+            this.btnServisİslem = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnMusteriler
             // 
             this.btnMusteriler.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnMusteriler.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnMusteriler.BackgroundImage")));
+            this.btnMusteriler.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnMusteriler.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnMusteriler.Location = new System.Drawing.Point(96, 85);
+            this.btnMusteriler.Location = new System.Drawing.Point(-119, 163);
             this.btnMusteriler.Name = "btnMusteriler";
-            this.btnMusteriler.Size = new System.Drawing.Size(179, 86);
+            this.btnMusteriler.Size = new System.Drawing.Size(291, 310);
             this.btnMusteriler.TabIndex = 0;
             this.btnMusteriler.Text = "MÜŞTERİ\r\n";
+            this.btnMusteriler.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             this.btnMusteriler.UseVisualStyleBackColor = true;
             this.btnMusteriler.Click += new System.EventHandler(this.btnMusteriler_Click);
-            // 
-            // btnNotEkle
-            // 
-            this.btnNotEkle.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnNotEkle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnNotEkle.Location = new System.Drawing.Point(917, 85);
-            this.btnNotEkle.Name = "btnNotEkle";
-            this.btnNotEkle.Size = new System.Drawing.Size(179, 86);
-            this.btnNotEkle.TabIndex = 1;
-            this.btnNotEkle.Text = "NOT EKLE";
-            this.btnNotEkle.UseVisualStyleBackColor = true;
-            this.btnNotEkle.Click += new System.EventHandler(this.btnNotEkle_Click);
             // 
             // btnCihazlar
             // 
             this.btnCihazlar.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnCihazlar.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnCihazlar.BackgroundImage")));
+            this.btnCihazlar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnCihazlar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnCihazlar.Location = new System.Drawing.Point(305, 85);
+            this.btnCihazlar.Location = new System.Drawing.Point(225, 163);
             this.btnCihazlar.Name = "btnCihazlar";
-            this.btnCihazlar.Size = new System.Drawing.Size(179, 86);
+            this.btnCihazlar.Size = new System.Drawing.Size(329, 300);
             this.btnCihazlar.TabIndex = 2;
             this.btnCihazlar.Text = "CİHAZ";
+            this.btnCihazlar.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.btnCihazlar.UseVisualStyleBackColor = true;
             this.btnCihazlar.Click += new System.EventHandler(this.btnCihazlar_Click);
             // 
             // btnServisKaydi
             // 
             this.btnServisKaydi.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnServisKaydi.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnServisKaydi.Location = new System.Drawing.Point(507, 85);
+            this.btnServisKaydi.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnServisKaydi.BackgroundImage")));
+            this.btnServisKaydi.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnServisKaydi.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnServisKaydi.Location = new System.Drawing.Point(610, 163);
             this.btnServisKaydi.Name = "btnServisKaydi";
-            this.btnServisKaydi.Size = new System.Drawing.Size(179, 86);
+            this.btnServisKaydi.Size = new System.Drawing.Size(333, 300);
             this.btnServisKaydi.TabIndex = 3;
-            this.btnServisKaydi.Text = "SERVİS KAYDI ";
+            this.btnServisKaydi.Text = "SERVİS KAYIT";
+            this.btnServisKaydi.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnServisKaydi.UseVisualStyleBackColor = true;
             this.btnServisKaydi.Click += new System.EventHandler(this.btnServisKaydi_Click);
             // 
-            // btnServisListele
+            // btnServisDurumGecmis
             // 
-            this.btnServisListele.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnServisListele.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnServisListele.Location = new System.Drawing.Point(718, 85);
-            this.btnServisListele.Name = "btnServisListele";
-            this.btnServisListele.Size = new System.Drawing.Size(179, 86);
-            this.btnServisListele.TabIndex = 4;
-            this.btnServisListele.Text = "SERVİS LİSTELE";
-            this.btnServisListele.UseVisualStyleBackColor = true;
-            this.btnServisListele.Click += new System.EventHandler(this.btnServisListele_Click);
+            this.btnServisDurumGecmis.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnServisDurumGecmis.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnServisDurumGecmis.BackgroundImage")));
+            this.btnServisDurumGecmis.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnServisDurumGecmis.Font = new System.Drawing.Font("Microsoft YaHei", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnServisDurumGecmis.Location = new System.Drawing.Point(994, 163);
+            this.btnServisDurumGecmis.Name = "btnServisDurumGecmis";
+            this.btnServisDurumGecmis.Size = new System.Drawing.Size(313, 300);
+            this.btnServisDurumGecmis.TabIndex = 4;
+            this.btnServisDurumGecmis.Text = "SERVİS DURUM GEÇMİŞ";
+            this.btnServisDurumGecmis.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnServisDurumGecmis.UseVisualStyleBackColor = true;
+            this.btnServisDurumGecmis.Click += new System.EventHandler(this.btnServisDurumGecmis_Click);
+            // 
+            // btnServisİslem
+            // 
+            this.btnServisİslem.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnServisİslem.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnServisİslem.BackgroundImage")));
+            this.btnServisİslem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnServisİslem.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnServisİslem.Location = new System.Drawing.Point(1345, 163);
+            this.btnServisİslem.Name = "btnServisİslem";
+            this.btnServisİslem.Size = new System.Drawing.Size(291, 300);
+            this.btnServisİslem.TabIndex = 5;
+            this.btnServisİslem.Text = "SERVİS İŞLEM ";
+            this.btnServisİslem.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnServisİslem.UseVisualStyleBackColor = true;
+            this.btnServisİslem.Click += new System.EventHandler(this.btnServisİslem_Click);
             // 
             // FormTeknikServis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1270, 531);
-            this.Controls.Add(this.btnServisListele);
+            this.ClientSize = new System.Drawing.Size(1797, 708);
+            this.Controls.Add(this.btnServisİslem);
+            this.Controls.Add(this.btnServisDurumGecmis);
             this.Controls.Add(this.btnServisKaydi);
             this.Controls.Add(this.btnCihazlar);
-            this.Controls.Add(this.btnNotEkle);
             this.Controls.Add(this.btnMusteriler);
             this.Name = "FormTeknikServis";
             this.Text = "FormTeknikServis";
@@ -115,9 +131,9 @@
         #endregion
 
         private System.Windows.Forms.Button btnMusteriler;
-        private System.Windows.Forms.Button btnNotEkle;
         private System.Windows.Forms.Button btnCihazlar;
         private System.Windows.Forms.Button btnServisKaydi;
-        private System.Windows.Forms.Button btnServisListele;
+        private System.Windows.Forms.Button btnServisDurumGecmis;
+        private System.Windows.Forms.Button btnServisİslem;
     }
 }

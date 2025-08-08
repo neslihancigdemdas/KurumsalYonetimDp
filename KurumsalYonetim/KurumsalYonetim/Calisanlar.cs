@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using KurumsalYonetim.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace KurumsalYonetim
@@ -11,6 +11,7 @@ namespace KurumsalYonetim
     public partial class FormCalisanlar : Form
     {
         private readonly string _apiBaseUrl = "http://localhost:5011";
+        private readonly CurrentUser _girisYapanKullanici;
 
         public class Calisan
         {
@@ -21,20 +22,86 @@ namespace KurumsalYonetim
             public string Telefon { get; set; } = string.Empty;
             public string Email { get; set; } = string.Empty;
             public string SicilNo { get; set; } = string.Empty;
-
             public string AdSoyad => $"{Ad} {Soyad}";
         }
 
-        public FormCalisanlar()
+        public FormCalisanlar(CurrentUser user)
         {
             InitializeComponent();
             msktb_telefon.Mask = "(999) 000-00-00";
             dgvPersonelListesi.SelectionChanged += dgvPersonelListesi_SelectionChanged;
-            LoadPersonelData();
+            _girisYapanKullanici = user;
+            LoadAllPersonelData();
             ClearFormFields();
         }
 
-        private async void LoadPersonelData()
+        private void FormCalisanlar_Load(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Maximized;
+            if (_girisYapanKullanici.IsAdmin)
+            {
+                ConfigureForAdmin();
+            }
+            else
+            {
+                ConfigureForPersonel();
+            }
+        }
+
+        private void ConfigureForAdmin()
+        {
+            this.Text = "Personel Yönetimi (Admin Paneli)";
+            btnEkle.Enabled = true;
+            btnSil.Enabled = true;
+            btnGuncelle.Enabled = true;
+            btnTemizle.Enabled = true;
+
+            dgvPersonelListesi.Visible = true;
+            LoadAllPersonelData();
+            ClearFormFields();
+        }
+
+        private async void ConfigureForPersonel()
+        {
+            this.Text = "Profil Bilgilerim";
+
+            btnEkle.Enabled = false;
+            btnSil.Enabled = false;
+            btnGuncelle.Enabled = true;
+            btnTemizle.Enabled = false;
+
+            dgvPersonelListesi.Visible = false;
+
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    HttpResponseMessage response = await client.GetAsync($"{_apiBaseUrl}/api/Calisanlar/{_girisYapanKullanici.CalisanID}");
+                    response.EnsureSuccessStatusCode();
+
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    Calisan personel = JsonConvert.DeserializeObject<Calisan>(responseBody);
+
+                    tbAd.Text = personel.Ad;
+                    tbSoyad.Text = personel.Soyad;
+                    tbSicilNo.Text = personel.SicilNo;
+                    tbDepartman.Text = personel.Departman;
+                    msktb_telefon.Text = personel.Telefon;
+                    tbEmail.Text = personel.Email;
+
+                    tbAd.ReadOnly = true;
+                    tbSoyad.ReadOnly = true;
+                    tbSicilNo.ReadOnly = true;
+                    tbDepartman.ReadOnly = true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Profil bilgileri yüklenemedi: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private async void LoadAllPersonelData()
         {
             using (HttpClient client = new HttpClient())
             {
@@ -67,7 +134,7 @@ namespace KurumsalYonetim
         {
             if (dgvPersonelListesi.SelectedRows.Count > 0)
             {
-                Calisan secilenCalisan = dgvPersonelListesi.SelectedRows[0].DataBoundItem as Calisan;
+                Calisan secilenCalisan = dgvPersonelListesi.SelectedRows[dgvPersonelListesi.SelectedRows.Count - 1].DataBoundItem as Calisan;
                 if (secilenCalisan != null)
                 {
                     tbAd.Text = secilenCalisan.Ad;
@@ -126,7 +193,7 @@ namespace KurumsalYonetim
                     {
                         MessageBox.Show("Çalışan başarıyla eklendi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         ClearFormFields();
-                        LoadPersonelData();
+                        LoadAllPersonelData();
                     }
                     else
                     {
@@ -142,48 +209,68 @@ namespace KurumsalYonetim
 
         private async void btnGuncelle_Click(object sender, EventArgs e)
         {
-            if (dgvPersonelListesi.SelectedRows.Count == 0)
-            {
-                MessageBox.Show("Lütfen güncellemek için bir çalışan seçin.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            int calisanIdToUpdate;
 
-            var selectedCalisan = dgvPersonelListesi.SelectedRows[0].DataBoundItem as Calisan;
-            if (selectedCalisan == null)
+            if (_girisYapanKullanici.IsAdmin)
             {
-                MessageBox.Show("Güncellenecek çalışan bulunamadı.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            selectedCalisan.Ad = tbAd.Text.Trim();
-            selectedCalisan.Soyad = tbSoyad.Text.Trim();
-            selectedCalisan.SicilNo = tbSicilNo.Text.Trim();
-            selectedCalisan.Departman = tbDepartman.Text.Trim();
-            selectedCalisan.Telefon = msktb_telefon.Text.Trim();
-            selectedCalisan.Email = tbEmail.Text.Trim();
-
-            using (HttpClient client = new HttpClient())
-            {
-                try
+                if (dgvPersonelListesi.SelectedRows.Count == 0)
                 {
-                    string json = JsonConvert.SerializeObject(selectedCalisan);
+                    MessageBox.Show("Lütfen güncellemek için bir çalışan seçin.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                var secilen = dgvPersonelListesi.SelectedRows[0].DataBoundItem as Calisan;
+                if (secilen == null) return;
+                calisanIdToUpdate = secilen.CalisanID;
+
+                secilen.Ad = tbAd.Text.Trim();
+                secilen.Soyad = tbSoyad.Text.Trim();
+                secilen.SicilNo = tbSicilNo.Text.Trim();
+                secilen.Departman = tbDepartman.Text.Trim();
+                secilen.Telefon = msktb_telefon.Text.Trim();
+                secilen.Email = tbEmail.Text.Trim();
+
+                using (HttpClient client = new HttpClient())
+                {
+                    string json = JsonConvert.SerializeObject(secilen);
                     StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                    HttpResponseMessage response = await client.PutAsync($"{_apiBaseUrl}/api/Calisanlar/{selectedCalisan.CalisanID}", content);
+                    HttpResponseMessage response = await client.PutAsync($"{_apiBaseUrl}/api/Calisanlar/{calisanIdToUpdate}", content);
                     if (response.IsSuccessStatusCode)
                     {
-                        MessageBox.Show("Çalışan güncellendi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        ClearFormFields();
-                        LoadPersonelData();
+                        MessageBox.Show("Çalışan bilgileri güncellendi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadAllPersonelData();
                     }
                     else
                     {
-                        MessageBox.Show("Güncelleme hatası: " + response.StatusCode, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Güncelleme hatası.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
-                catch (Exception ex)
+            }
+            else
+            {
+                calisanIdToUpdate = _girisYapanKullanici.CalisanID;
+
+                var updateRequest = new
                 {
-                    MessageBox.Show("Hata: " + ex.Message, "API Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Telefon = msktb_telefon.Text.Trim(),
+                    Email = tbEmail.Text.Trim()
+                };
+
+                using (HttpClient client = new HttpClient())
+                {
+                    string json = JsonConvert.SerializeObject(updateRequest);
+                    StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    HttpResponseMessage response = await client.PutAsync($"{_apiBaseUrl}/api/CalisanSelfService/guncelle/{calisanIdToUpdate}", content);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        MessageBox.Show("Bilgileriniz güncellendi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        ConfigureForPersonel();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Güncelleme hatası.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }
@@ -216,7 +303,7 @@ namespace KurumsalYonetim
                     {
                         MessageBox.Show("Çalışan silindi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         ClearFormFields();
-                        LoadPersonelData();
+                        LoadAllPersonelData();
                     }
                     else
                     {
@@ -228,11 +315,6 @@ namespace KurumsalYonetim
                     MessageBox.Show("Hata: " + ex.Message, "API Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-        }
-
-        private void FormCalisanlar_Load(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Maximized;
         }
     }
 }

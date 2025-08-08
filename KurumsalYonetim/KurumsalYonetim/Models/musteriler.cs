@@ -1,14 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KurumsalYonetim.Models
 {
-    public class Musteri
+    public class Musteriler
     {
+        public static object Content { get; internal set; }
         [JsonProperty("musteriID")]
         public int MusteriID { get; set; }
 
@@ -26,6 +23,12 @@ namespace KurumsalYonetim.Models
 
         [JsonProperty("kayitTarihi")]
         public DateTime KayitTarihi { get; set; }
+
+        public class Musteri
+        {
+            public int MusteriID { get; set; }
+            public string AdSoyad { get; set; } = string.Empty;
+        }
     }
 
 }

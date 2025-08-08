@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace KurumsalYonetim
@@ -36,20 +29,20 @@ namespace KurumsalYonetim
 
         private void btnServisKaydi_Click(object sender, EventArgs e)
         {
-            formServisKaydi servisKaydiform = new formServisKaydi();
-            servisKaydiform.Show();
+            formServisKayit ServisKayitform = new formServisKayit();
+            ServisKayitform.Show();
         }
 
-        private void btnServisListele_Click(object sender, EventArgs e)
+        private void btnServisDurumGecmis_Click(object sender, EventArgs e)
         {
-            formServisListele servisListeleform = new formServisListele();
-            servisListeleform.Show();
+            formServisDurumGecmis servisDurumGecmisform = new formServisDurumGecmis();
+            servisDurumGecmisform.Show();
         }
 
-        private void btnNotEkle_Click(object sender, EventArgs e)
+        private void btnServisİslem_Click(object sender, EventArgs e)
         {
-            formNotEkle notEkleform = new formNotEkle();
-            notEkleform.Show();
+            formServisIslem servisIslemForm = new formServisIslem();
+            servisIslemForm.Show();
         }
     }
 }

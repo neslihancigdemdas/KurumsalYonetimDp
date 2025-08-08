@@ -1,12 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using KurumsalYonetim.Models;
+using Newtonsoft.Json;
 using System;
+using System.Drawing;
 using System.Net.Http;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Windows.Forms;
-using System.Threading.Tasks;
-using KurumsalYonetim.Controllers;
-using KurumsalYonetim.Models;
+
 
 namespace KurumsalYonetim
 {
@@ -21,9 +20,8 @@ namespace KurumsalYonetim
         {
             public string KullaniciAdi { get; set; } = string.Empty;
             public string Sifre { get; set; } = string.Empty;
-            public string Rol { get; set; } = "Kullanici"; 
+            public string Rol { get; set; } = "Kullanici";
         }
-
         private async void btnHesapOlusturma_Click(object sender, EventArgs e)
         {
             string kullaniciAdi = tbKullaniciAdi.Text.Trim();
@@ -35,18 +33,16 @@ namespace KurumsalYonetim
                 return;
             }
 
-             RegisterRequest registerRequest = new RegisterRequest
-             {    
+            RegisterRequest registerRequest = new RegisterRequest
+            {
                 KullaniciAdi = kullaniciAdi,
                 Sifre = sifre,
-                 Rol = "Kullanici"
+                Rol = "Kullanici"
 
-             };
-            
-             
+            };
 
             string json = JsonConvert.SerializeObject(registerRequest);
-    
+
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             using (HttpClient client = new HttpClient())
             {
@@ -79,10 +75,11 @@ namespace KurumsalYonetim
 
         private void btSifreYenileme_Click(object sender, EventArgs e)
         {
-            SetPasswordForm formsetpassword = new SetPasswordForm(tbKullaniciAdi.Text.Trim());
-            formsetpassword.ShowDialog();
+            SetPasswordForm passwordForm = new SetPasswordForm();
+            passwordForm.Show();
+
         }
-        public class LoginRequest 
+        public class LoginRequest
         {
             public string KullaniciAdi { get; set; } = string.Empty;
             public string Sifre { get; set; } = string.Empty;
@@ -96,8 +93,8 @@ namespace KurumsalYonetim
 
         private async void btnGirisYap_Click(object sender, EventArgs e)
         {
-            string kullaniciAdi = tbKullaniciAdi.Text.Trim(); 
-            string sifre = tbSifre.Text; 
+            string kullaniciAdi = tbKullaniciAdi.Text.Trim();
+            string sifre = tbSifre.Text;
 
             if (string.IsNullOrEmpty(kullaniciAdi) || string.IsNullOrEmpty(sifre))
             {
@@ -114,8 +111,8 @@ namespace KurumsalYonetim
             string json = JsonConvert.SerializeObject(loginRequest);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            
-            string apiBaseUrl = "http://localhost:5011"; 
+
+            string apiBaseUrl = "http://localhost:5011";
 
             using (HttpClient client = new HttpClient())
             {
@@ -131,10 +128,10 @@ namespace KurumsalYonetim
 
                         MessageBox.Show("Giriş Başarılı");
                         FormSecenekler mainForm = new FormSecenekler(kullaniciAdi, loginResponse.Rol);
-                         mainForm.Show();                   
-  
+                        mainForm.Show();
+
                     }
-                    else 
+                    else
                     {
                         MessageBox.Show("Giriş başarısız: " + v, "Giriş Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
@@ -157,6 +154,79 @@ namespace KurumsalYonetim
         private void formLogincs_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void btKullanicigiris_Click(object sender, EventArgs e)
+        {
+            string ad = tbad.Text.Trim();
+            string soyad = tbsoyad.Text.Trim();
+            string sicilNo = tbsicilno.Text.Trim();
+
+            if (string.IsNullOrEmpty(ad) || string.IsNullOrEmpty(soyad) || string.IsNullOrEmpty(sicilNo))
+            {
+                MessageBox.Show("Lütfen Ad, Soyad ve Sicil No alanlarını doldurun.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var dogrulamaRequest = new
+            {
+                Ad = ad,
+                Soyad = soyad,
+                SicilNo = sicilNo
+            };
+
+            string json = JsonConvert.SerializeObject(dogrulamaRequest);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    var response = await client.PostAsync("http://localhost:5011/api/CalisanSelfService/dogrula", content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string responseData = await response.Content.ReadAsStringAsync();
+
+                        var calisan = JsonConvert.DeserializeObject<FormCalisanlar.Calisan>(responseData);
+
+                        MessageBox.Show("Doğrulama başarılı!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+                        var girisYapanPersonel = new CurrentUser
+                        {
+                            IsAdmin = false,
+                            CalisanID = calisan.CalisanID,
+                            Ad = calisan.Ad,
+                            Soyad = calisan.Soyad,
+                            SicilNo = calisan.SicilNo
+                        };
+
+                        FormCalisanlar profilForm = new FormCalisanlar(girisYapanPersonel);
+
+                        profilForm.Show();
+
+
+                    }
+                    else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    {
+                        MessageBox.Show("Girilen bilgiler hatalı. Lütfen tekrar deneyin.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Beklenmeyen bir hata oluştu: " + response.StatusCode, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("API bağlantı hatası: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }

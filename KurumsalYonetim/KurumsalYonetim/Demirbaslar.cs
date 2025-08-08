@@ -1,13 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace KurumsalYonetim
@@ -27,7 +22,7 @@ namespace KurumsalYonetim
             public string Model { get; set; }
             public string SeriNumarasi { get; set; }
             public string Durum { get; set; }
-           
+
         }
         private async void btnEkle_Click(object sender, EventArgs e)
         {
@@ -47,14 +42,14 @@ namespace KurumsalYonetim
                     string json = JsonConvert.SerializeObject(yeniDemirbas);
                     StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                    string apiBaseUrl = "http://localhost:5011"; 
+                    string apiBaseUrl = "http://localhost:5011";
                     HttpResponseMessage response = await client.PostAsync($"{apiBaseUrl}/api/Demirbaslar", content);
 
                     if (response.IsSuccessStatusCode)
                     {
                         MessageBox.Show("Demirbaş başarıyla eklendi.");
                         FormAlanlariniTemizle();
-                        DemirbasListele(); 
+                        DemirbasListele();
                     }
                     else
                     {
@@ -74,7 +69,7 @@ namespace KurumsalYonetim
             {
                 try
                 {
-                    string apiBaseUrl = "http://localhost:5011"; 
+                    string apiBaseUrl = "http://localhost:5011";
                     HttpResponseMessage response = await client.GetAsync(apiBaseUrl + "/api/Demirbaslar");
                     response.EnsureSuccessStatusCode();
 
@@ -82,6 +77,11 @@ namespace KurumsalYonetim
 
                     List<Demirbas> demirbasListesi = JsonConvert.DeserializeObject<List<Demirbas>>(json);
                     dgvDemirbaslar.DataSource = demirbasListesi;
+
+                    if (dgvDemirbaslar.Columns["DemirbasID"] != null)
+                    {
+                        dgvDemirbaslar.Columns["DemirbasID"].Visible = false;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -180,7 +180,7 @@ namespace KurumsalYonetim
                     if (response.IsSuccessStatusCode)
                     {
                         MessageBox.Show("Demirbaş başarıyla güncellendi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        FormAlanlariniTemizle(); 
+                        FormAlanlariniTemizle();
                     }
                     else
                     {
@@ -217,6 +217,7 @@ namespace KurumsalYonetim
                     cmbDurum.SelectedItem = demirbas.Durum;
                 }
             }
+
         }
 
         private void btnTemizle_Click(object sender, EventArgs e)
