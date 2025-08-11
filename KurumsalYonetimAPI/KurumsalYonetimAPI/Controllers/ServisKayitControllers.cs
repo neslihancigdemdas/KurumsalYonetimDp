@@ -17,7 +17,6 @@ public class ServisKayitController : ControllerBase
         _context = context;
     }
 
-    // GET: api/ServisKayit
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ServisKayitDTO>>> GetServisKayitlari()
     {
@@ -39,7 +38,6 @@ public class ServisKayitController : ControllerBase
         return servisListesi;
     }
 
-    // GET: api/ServisKayit/5
     [HttpGet("{id}")]
     public async Task<ActionResult<ServisKayit>> GetServisKayit(int id)
     {
@@ -53,15 +51,12 @@ public class ServisKayitController : ControllerBase
         if (servis == null)
             return NotFound();
 
-        // İstersen burada DTO'ya dönüştürebilirsin, ya da direkt model dönebilirsin
-        // Eğer direkt model döneceksen aşağıdaki iki satırı ekleyerek ilgili alanları da doldurabilirsin:
         servis.MusteriAdSoyad = servis.Musteri != null ? servis.Musteri.AdSoyad : null;
         servis.CihazMarka = servis.Cihaz != null ? servis.Cihaz.Marka : null;
 
         return servis;
     }
 
-    // POST: api/ServisKayit
     [HttpPost]
     public async Task<ActionResult<ServisKayit>> PostServisKayit(ServisKayit servis)
     {
@@ -73,7 +68,6 @@ public class ServisKayitController : ControllerBase
         return CreatedAtAction(nameof(GetServisKayit), new { id = servis.ServisKayitId }, servis);
     }
 
-    // PUT: api/ServisKayit/5
     [HttpPut("{id}")]
     public async Task<IActionResult> PutServisKayit(int id, ServisKayit servis)
     {
@@ -91,7 +85,6 @@ public class ServisKayitController : ControllerBase
         mevcutKayit.CihazId = servis.CihazId;
         mevcutKayit.MusteriId = servis.MusteriId;
         mevcutKayit.Aciklama = servis.Aciklama;
-        // KayitTarihi genellikle değişmez, istersen değiştirebilirsin.
 
         try
         {
@@ -112,7 +105,6 @@ public class ServisKayitController : ControllerBase
         return NoContent();
     }
 
-    // DELETE: api/ServisKayit/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteServisKayit(int id)
     {

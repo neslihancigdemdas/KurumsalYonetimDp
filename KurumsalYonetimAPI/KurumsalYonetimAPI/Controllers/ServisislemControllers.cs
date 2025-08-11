@@ -13,7 +13,6 @@ public class ServisIslemController : ControllerBase
         _context = context;
     }
 
-    // GET: api/ServisIslem
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ServisIslem>>> GetIslemler()
     {
@@ -22,7 +21,6 @@ public class ServisIslemController : ControllerBase
             .ToListAsync();
     }
 
-    // GET: api/ServisIslem/5
     [HttpGet("{id}")]
     public async Task<ActionResult<ServisIslem>> GetIslem(int id)
     {
@@ -34,7 +32,6 @@ public class ServisIslemController : ControllerBase
         return islem;
     }
 
-    // POST: api/ServisIslem
     [HttpPost]
     public async Task<ActionResult<ServisIslem>> PostIslem(ServisIslem islem)
     {
@@ -46,7 +43,6 @@ public class ServisIslemController : ControllerBase
         return CreatedAtAction(nameof(GetIslem), new { id = islem.IslemId }, islem);
     }
 
-    // PUT: api/ServisIslem/5
     [HttpPut("{id}")]
     public async Task<IActionResult> PutIslem(int id, ServisIslem islem)
     {
@@ -70,7 +66,6 @@ public class ServisIslemController : ControllerBase
         return NoContent();
     }
 
-    // DELETE: api/ServisIslem/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteIslem(int id)
     {

@@ -16,7 +16,6 @@ namespace KurumsalYonetimAPI.Controllers
             _context = context;
         }
 
-        // Tüm atamaları listele
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Atama>>> GetAtamalar()
         {
@@ -26,7 +25,6 @@ namespace KurumsalYonetimAPI.Controllers
                 .ToListAsync();
         }
 
-        // Atama yap
         [HttpPost]
         public async Task<ActionResult<Atama>> YapAtama(Atama atama)
         {
@@ -35,7 +33,6 @@ namespace KurumsalYonetimAPI.Controllers
             return CreatedAtAction(nameof(GetAtama), new { id = atama.AtamaID }, atama);
         }
 
-        // Belirli atamayı getir
         [HttpGet("{id}")]
         public async Task<ActionResult<Atama>> GetAtama(int id)
         {
@@ -50,7 +47,6 @@ namespace KurumsalYonetimAPI.Controllers
             return atama;
         }
 
-        // Güncelle
         [HttpPut("{id}")]
         public async Task<IActionResult> Guncelle(int id, Atama atama)
         {
@@ -63,7 +59,6 @@ namespace KurumsalYonetimAPI.Controllers
             return NoContent();
         }
 
-        // Teslim et (sadece teslim tarihini günceller)
         [HttpPut("teslim/{id}")]
         public async Task<IActionResult> TeslimEt(int id)
         {
@@ -77,7 +72,6 @@ namespace KurumsalYonetimAPI.Controllers
             return NoContent();
         }
 
-        // Sil
         [HttpDelete("{id}")]
         public async Task<IActionResult> Sil(int id)
         {

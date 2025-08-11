@@ -14,13 +14,11 @@ namespace KurumsalYonetimAPI.Controllers
     public class AuthController : ControllerBase
     {
         private readonly ApplicationDbContext _context; 
-        // Constructor Dependency Injection ile DbContext'i alırız
         public AuthController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // POST: api/Auth/register (Kullanıcı kaydı için - test amaçlı veya Admin tarafından)
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
@@ -54,7 +52,6 @@ namespace KurumsalYonetimAPI.Controllers
             return Ok(new { Message = "Kullanıcı başarıyla kaydedildi.", KullaniciAdi = yeniKullanici.KullaniciAdi });
         }
 
-        // POST: api/Auth/login (Kullanıcı girişi için)
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
@@ -101,7 +98,6 @@ namespace KurumsalYonetimAPI.Controllers
             return Ok(new { Message = "Giriş başarılı!", Rol = kullanici.Rol, RequirePasswordChange = false });
         }
 
-        // POST: api/Auth/set-password (Kullanıcının şifresini belirlemesi/değiştirmesi için)
         [HttpPost("set-password")]
         public async Task<IActionResult> SetPassword([FromBody] SetPasswordRequest request)
         {
@@ -131,8 +127,6 @@ namespace KurumsalYonetimAPI.Controllers
             return Ok("Şifreniz başarıyla belirlendi/değiştirildi.");
         }
     }
-
-    // API İstek (Request) Modelleri (Controller sınıfının içinde tanımlanabilir)
     public class LoginRequest
     {
         public string KullaniciAdi { get; set; } = string.Empty;

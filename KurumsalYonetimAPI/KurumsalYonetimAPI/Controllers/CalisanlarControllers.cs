@@ -18,8 +18,6 @@ namespace KurumsalYonetimAPI.Controllers
             _context = context;
         }
 
-        // GET: api/Calisanlar
-        // Tüm çalışanları getirir
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Calisan>>> GetCalisanlar()
         {
@@ -31,8 +29,6 @@ namespace KurumsalYonetimAPI.Controllers
             return await _context.Calisanlar.ToListAsync();
         }
 
-        // GET: api/Calisanlar/5
-        // Belirli bir ID'ye sahip çalışanı getirir
         [HttpGet("{id}")]
         public async Task<ActionResult<Calisan>> GetCalisan(int id) 
         {
@@ -50,9 +46,6 @@ namespace KurumsalYonetimAPI.Controllers
             return calisan;
         }
 
-
-        // POST: api/Calisanlar
-        // Yeni bir çalışan ekleme
         [HttpPost]
         public async Task<ActionResult<Calisan>> AddCalisan(Calisan calisan) 
         {
@@ -72,8 +65,6 @@ namespace KurumsalYonetimAPI.Controllers
             return CreatedAtAction(nameof(GetCalisan), new { id = calisan.CalisanID }, calisan);
         }
 
-        // PUT: api/Calisanlar/5
-        // Belirli bir ID'ye sahip çalışanı güncelleme
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCalisan(int id, Calisan calisan)
         {
@@ -117,9 +108,6 @@ namespace KurumsalYonetimAPI.Controllers
             return NoContent(); 
         }
 
-
-        // DELETE: api/Calisanlar/5
-        // Belirli bir ID'ye sahip çalışanı silme
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCalisan(int id)
         {
@@ -138,8 +126,6 @@ namespace KurumsalYonetimAPI.Controllers
 
             return NoContent();
         }
-
-        // Yardımcı metot: Çalışanın varlığını kontrol etme
         private bool CalisanExists(int id)
         {
             return _context.Calisanlar.Any(e => e.CalisanID == id);

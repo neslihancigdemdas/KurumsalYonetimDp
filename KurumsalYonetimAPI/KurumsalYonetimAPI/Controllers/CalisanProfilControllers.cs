@@ -19,7 +19,6 @@ namespace KurumsalYonetimAPI.Controllers
             _environment = environment;
         }
 
-        // 1. Kimlik doğrulama
         [HttpPost("dogrula")]
         public async Task<IActionResult> DogrulaCalisan([FromBody] CalisanDogrulamaRequest request)
         {
@@ -35,7 +34,6 @@ namespace KurumsalYonetimAPI.Controllers
             return Ok(calisan);
         }
 
-        // 2. Bilgi güncelleme (telefon, email)
         [HttpPut("guncelle/{id}")]
         public async Task<IActionResult> GuncelleBilgiler(int id, [FromBody] CalisanBilgiGuncelleRequest request)
         {
@@ -62,7 +60,6 @@ namespace KurumsalYonetimAPI.Controllers
             return Ok(calisan); 
         }
 
-        // 3. Bilgi + fotoğraf güncelleme
         [HttpPut("guncelle-resimli/{id}")]
         public async Task<IActionResult> GuncelleBilgilerWithImage(int id, [FromForm] CalisanResimliGuncelleRequest request)
         {
@@ -70,7 +67,6 @@ namespace KurumsalYonetimAPI.Controllers
             if (calisan == null)
                 return NotFound("Çalışan bulunamadı.");
 
-            // Fotoğraf varsa kaydet
             if (request.Resim != null && request.Resim.Length > 0)
             {
                 var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");

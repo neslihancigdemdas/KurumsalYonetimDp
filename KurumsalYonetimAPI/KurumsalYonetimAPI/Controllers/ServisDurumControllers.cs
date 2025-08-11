@@ -14,7 +14,6 @@ public class ServisDurumGecmisiController : ControllerBase
         _context = context;
     }
 
-    // GET: api/ServisDurumGecmisi
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ServisDurumGecmisi>>> GetDurumlar()
     {
@@ -23,7 +22,6 @@ public class ServisDurumGecmisiController : ControllerBase
             .ToListAsync();
     }
 
-    // GET: api/ServisDurumGecmisi/5
     [HttpGet("{id}")]
     public async Task<ActionResult<ServisDurumGecmisi>> GetDurum(int id)
     {
@@ -35,19 +33,16 @@ public class ServisDurumGecmisiController : ControllerBase
         return durum;
     }
 
-    // POST: api/ServisDurumGecmisi
     [HttpPost]
     public async Task<ActionResult<ServisDurumGecmisi>> PostDurum(ServisDurumGecmisi durum)
     {
-        durum.Tarih = DateTime.Now; // Sunucu tarafında tarih ayarlanabilir
-
+        durum.Tarih = DateTime.Now;
         _context.ServisDurumGecmisi.Add(durum);
         await _context.SaveChangesAsync();
 
         return CreatedAtAction(nameof(GetDurum), new { id = durum.DurumId }, durum);
     }
 
-    // PUT: api/ServisDurumGecmisi/5
     [HttpPut("{id}")]
     public async Task<IActionResult> PutDurum(int id, ServisDurumGecmisi durum)
     {
@@ -71,7 +66,6 @@ public class ServisDurumGecmisiController : ControllerBase
         return NoContent();
     }
 
-    // DELETE: api/ServisDurumGecmisi/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteDurum(int id)
     {
