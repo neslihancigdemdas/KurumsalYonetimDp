@@ -218,7 +218,7 @@ namespace KurumsalYonetim
 
         private void btnTemizle_Click(object sender, EventArgs e)
         {
-
+            TemizleForm();
         }
     }
 }

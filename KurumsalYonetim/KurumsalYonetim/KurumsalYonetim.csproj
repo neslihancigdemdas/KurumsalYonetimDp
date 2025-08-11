@@ -88,7 +88,7 @@
     <Compile Include="Calisanlar.Designer.cs">
       <DependentUpon>Calisanlar.cs</DependentUpon>
     </Compile>
-    <Compile Include="Demirbas.cs" />
+    <Compile Include="Models\Demirbas.cs" />
     <Compile Include="Demirbaslar.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,12 +100,6 @@
     </Compile>
     <Compile Include="DemirbaslarıAtama.Designer.cs">
       <DependentUpon>DemirbaslarıAtama.cs</DependentUpon>
-    </Compile>
-    <Compile Include="formkullanicigiris.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="formkullanicigiris.Designer.cs">
-      <DependentUpon>formkullanicigiris.cs</DependentUpon>
     </Compile>
     <Compile Include="formSecenekler.cs">
       <SubType>Form</SubType>
@@ -182,9 +176,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DemirbaslarıAtama.resx">
       <DependentUpon>DemirbaslarıAtama.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="formkullanicigiris.resx">
-      <DependentUpon>formkullanicigiris.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="formSecenekler.resx">
       <DependentUpon>formSecenekler.cs</DependentUpon>

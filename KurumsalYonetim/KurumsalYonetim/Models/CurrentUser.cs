@@ -2,7 +2,6 @@
 {
     public class CurrentUser
     {
-        // Admin mi olduğunu belirtir.
         public bool IsAdmin { get; set; }
 
         public int CalisanID { get; set; }

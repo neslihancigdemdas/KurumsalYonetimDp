@@ -73,7 +73,7 @@ namespace KurumsalYonetim
                     servisKayitlar = JsonConvert.DeserializeObject<List<ServisKayit>>(json);
 
                     cmbServisKayit.DataSource = servisKayitlar;
-                    cmbServisKayit.DisplayMember = "Aciklama"; // İhtiyaca göre değiştirilebilir
+                    cmbServisKayit.DisplayMember = "Aciklama";
                     cmbServisKayit.ValueMember = "ServisKayitId";
                     cmbServisKayit.SelectedIndex = -1;
                 }
